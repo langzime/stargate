@@ -32,7 +32,7 @@ use routes::Route;
 async fn main() -> Result<(), Error>  {
     logging::init();
     debug!("Starting");
-    run().await;
+    run().await?;
     Ok(())
 }
 
