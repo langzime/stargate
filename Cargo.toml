@@ -1,0 +1,22 @@
+[package]
+name = "stargate"
+version = "0.1.0"
+authors = ["wangyanqing16 <wangyanqing16@jd.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+hyper = { git = "https://github.com/hyperium/hyper" }
+hyper-tls = {git="https://github.com/hyperium/hyper-tls"}
+mime_guess = "2.0.1"
+tokio = "0.2.0-alpha.4"
+clap = "~2.33.0"
+url = "1.7.2"
+ansi_term = "0.11.0"
+futures-preview = { version = "0.3.0-alpha.18"}
+futures-util-preview = { version = "=0.3.0-alpha.18" }
+env_logger = "0.6.1"
+log = "0.4.0"
+regex = "1"
+lazy_static = "1"
