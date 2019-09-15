@@ -3,10 +3,6 @@ use std::env;
 use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::Arc;
-use tokio::{
-    io::AsyncReadExt,
-    net::{TcpListener, TcpStream},
-};
 use hyper::{Client, Server, Body, Request, Response, rt};
 use hyper::service::{make_service_fn, service_fn};
 use hyper_tls::HttpsConnector;
@@ -32,16 +28,15 @@ use matcher::Matcher;
 use errors::Error;
 use routes::Route;
 
-use tokio::runtime::Runtime;
-
-fn main() -> Result<(), Error>  {
+#[tokio::main]
+async fn main() -> Result<(), Error>  {
     logging::init();
     debug!("Starting");
-    run()?;
+    run().await?;
     Ok(())
 }
 
-fn run() -> Result<(), Error> {
+async fn run() -> Result<(), Error> {
     let (routes, other_args) = routes::from_args(env::args().skip(1)).map_err(|e| {
         err!("failed to parse routes: {}", e)
     })?;
@@ -71,14 +66,12 @@ fn run() -> Result<(), Error> {
         rs.push(route);
     }
 
-    let rt = Runtime::new().unwrap();
-
     let mut vec = Vec::new();
     for (socket_addr, routes) in map {
         let handler = handle_requests(socket_addr, routes);
         vec.push(handler);
     }
-    rt.block_on(join_all(vec));
+    join_all(vec).await;
     Result::<_, Error>::Ok(())
 }
 
