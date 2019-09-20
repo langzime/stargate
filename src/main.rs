@@ -1,12 +1,11 @@
-use futures::{future, future::try_join, FutureExt, StreamExt, TryFutureExt};
+use futures::TryFutureExt;
 use std::env;
 use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::Arc;
-use hyper::{Client, Server, Body, Request, Response, rt};
+use hyper::{Client, Server, Body, Request, Response};
 use hyper::service::{make_service_fn, service_fn};
 use hyper_tls::HttpsConnector;
-use hyper::server::conn::AddrStream;
 use log::{debug, info, warn, error};
 use std::result::Result::{Ok, Err};
 use location::ResolvedLocation;
